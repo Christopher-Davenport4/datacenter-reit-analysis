@@ -1,7 +1,7 @@
 CREATE DATABASE IF NOT EXISTS datacenter_reits;
 SHOW DATABASES;
 
--- Auto Increment makes it so each id added is a unique number
+
 USE datacenter_reits;
 DROP TABLE monthly_summary; 
 DROP TABLE daily_prices; 
@@ -16,6 +16,7 @@ CREATE TABLE IF NOT EXISTS companies (
     exchange varchar(255)
     );
 
+-- Auto Increment makes it so each id added is a unique number
 CREATE TABLE IF NOT EXISTS daily_prices (
 	id int AUTO_INCREMENT PRIMARY KEY,
     ticker varchar(15),
@@ -47,7 +48,7 @@ CREATE TABLE IF NOT EXISTS monthly_summary (
     );
     
     
-    SHOW TABLES;
+     -- SHOW TABLES;
      -- describe companies;
      -- describe daily_prices;
-     describe monthly_summary; 
+     -- describe monthly_summary; 
