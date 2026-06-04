@@ -32,15 +32,16 @@ Rationale: While looking at CVs will allow us to compare the relative variabilit
 
 ## Growth**
 
-### Descriptive 
+### Descriptive and Inferentia
 
-In order to look at growth, I will be computing the daily return ((today's close - yesterday's close) / yesterday's close) and running separate linear regressions for each company to assess their growth trends. the slope will allow us to see how fast the stock grew, and R^2 will show how consistent it grew in the slopes direction
+In order to look at growth, I will be computing the daily return ((today's close - yesterday's close) / yesterday's close) and running computing a multi-level model (MLM) with days (level 1) nested within companies (level 2).  the slope will allow us to see how fast the stock grew, and R^2 will show how consistent it grew in the slopes direction
 
-rationale: fitting a regression to each company will allow us to descriptively look at each companies growth. specifically, we will be able to see the rate in strength and direction the a companies return change for each increase in time (e.g., months, year). 
+rationale: fitting a MLM to each company will allow us to descriptively look at each companies growth. specifically, we will be able to see the rate in strength and direction the a companies return change for each increase in time (e.g., months, year). I am using MLM to account for the non-independence in time series data. 
 
 
-### Inferential
+#Statistical Assumptions*
 
-The same computations that were used in stability analyses will be used here. The only difference is the metric will be based on the daily return
+For this project, I am going to be relying on the Kruskall-Wallis test and multilevel modeling . In order to do these, I will be assessing for the following assumptions across the variable types that will be used (CV of stock price range and daily reutrn.)
 
-Rationale: While looking at the growth trends as measure by changes in daily return over time, it does not tell us is the are statistically different from each other. A Kruskall-Wallis test follow by a Dunn's test allows us to do this. The Kruskall-Wallis is a non-parametric version of an ANOVA. this is necessary as stock data is naturally not noramlly distributed. In other words, given we are assuming some growth, that suggest that these data are naturally going to be positively skewed. The Dunn's test is use in order to look at pariwise comparisons between the three companies to assess their statistical difference. This is important as having more than 2 IVs increases the chance of type I errors. Dunn's test allows us to correct for this. 
+##Independence of Oberservations (Kruskall and Linear Regression)
+I am assuming that this assumption only partially holds, given that we are using 
