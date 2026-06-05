@@ -1,8 +1,8 @@
-*Context*
+#Context
 
 I wanted to do a project that utilized live data, and came to the conclusions that I wanted to do a project tracking the performance of companies investing in AI data centers. Initially I was going to look at AWS, Google Cloud, and Oracle. My plan was look at their respective growths over the past year, and the month-to-month stability of the stock price. Before moving on to operationalizing what growth or stability looked liked, I started to question the construct validity of these companies. That is, AWS and Google Cloud are divisions of companies that are not connected to data centers. Their prices are going to be influenced by the performance of the larger companies and other extraneous factors. As a result, I decided to pivot and look at companies that work primarily in datacenter real estate. From here, I landed on Equinix (EQIX), Digital Realty (DLR), and Iron Mountain (IRM). However, Iron Mountain is a bit of an outlier as they started in physical document storage and started translating into datacenters. As the medium is still primarily storage in a similar capacity, I figured this would offer interesting comparisons to be made between the three companies
 
-**Advantages of Comparing EQIX, DLR, and IRM**
+##Advantages of Comparing EQIX, DLR, and IRM
 
 -- These companies are in the same sector
 -- These companies have the same asset class
@@ -34,7 +34,6 @@ Rationale: While looking at CVs will allow us to compare the relative variabilit
 This is a non-parametric version of an ANOVA. A non-parametric version is necessary as stock data is naturally not normally distributed. Given that we are assuming some growth, these data are naturally going to be positively skewed.
 
 *Dunn's Test*
-
 
 **Growth**
 
