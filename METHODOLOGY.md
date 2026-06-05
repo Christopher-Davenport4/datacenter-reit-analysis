@@ -34,6 +34,7 @@ Rationale: While looking at CVs will allow us to compare the relative variabilit
 This is a non-parametric version of an ANOVA. A non-parametric version is necessary as stock data is naturally not normally distributed. Given that we are assuming some growth, these data are naturally going to be positively skewed.
 
 *Dunn's Test*
+The Dunn's test is used in order to look at pairwise comparisons between the three companies to assess their statistical differences. This is important as having more than 2 levels increases the chance of type I errors. Dunn's test corrects for this.
 
 **Growth**
 
@@ -44,6 +45,7 @@ In order to descriptively look at growth, I will be computing the daily return (
 Rationale: Fitting a regression to each company allows us to characterize each company's growth trajectory individually. The slope tells us how fast the stock grew, and R² tells us how consistent that growth was. A high R² means the stock followed a steady upward trend, while a low R² means growth was erratic even if the overall return was positive. Daily return is used as the outcome variable rather than raw close price because it is scale-free, making it comparable across companies trading at very different price levels.
 
 ***Inferential***
+The same test used in the stability analysis will be used here. The independent variable remains company (three levels: EQIX, DLR, IRM), and the dependent variable will be daily return.
 
 *Statistical Assumptions*
 
