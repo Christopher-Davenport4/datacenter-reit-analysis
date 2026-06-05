@@ -30,7 +30,9 @@ CREATE TABLE IF NOT EXISTS daily_prices (
     FOREIGN KEY (ticker)
     REFERENCES companies(ticker)
     );
-   
+
+ALTER TABLE daily_prices DROP COLUMN close;
+
 CREATE TABLE IF NOT EXISTS monthly_summary (
 	id int AUTO_INCREMENT PRIMARY KEY,
     ticker varchar(15),
@@ -52,3 +54,6 @@ CREATE TABLE IF NOT EXISTS monthly_summary (
      -- describe companies;
      -- describe daily_prices;
      -- describe monthly_summary; 
+
+
+ALTER USER 'root'@'localhost' IDENTIFIED BY 'beans123';
