@@ -36,6 +36,17 @@ FROM monthly_stats;
 
 SELECT * FROM monthly_summary LIMIT 10;
 
+-- Window function with PARTITION BY
+SELECT ticker, `date`, high,
+    AVG(high) OVER(PARTITION BY ticker) AS avg_high_per_ticker
+FROM daily_prices;
+
+-- GROUP BY aggregation
+SELECT ticker,
+    AVG(high) AS avg_high_per_ticker
+FROM daily_prices
+GROUP BY ticker;
+
 -- verifying the correct values are being produced in  with the first and last close syntax
 -- SELECT ticker, `date`, adjusted_close
 -- FROM daily_prices
@@ -50,3 +61,5 @@ SELECT * FROM monthly_summary LIMIT 10;
 -- DESCRIBE daily_prices;
 -- DESCRIBE companies;
 -- DESCRIBE monthly_summary;
+
+SELECT * FROM regression_results;

@@ -42,18 +42,29 @@ CREATE TABLE IF NOT EXISTS monthly_summary (
     sd_daily_range DECIMAL(10,4),
     cv_daily_range DECIMAL(10,4),
     mean_close DECIMAL(10,2),
-    regression_slope DECIMAL(10,6),
-    r_squared DECIMAL(10,6),
     monthly_return DECIMAL(10,4),
     FOREIGN KEY (ticker)
 	REFERENCES companies(ticker)
     );
-    
-    
+ALTER TABLE monthly_summary 
+DROP COLUMN regression_slope,
+DROP COLUMN r_squared;
+
+CREATE TABLE IF NOT EXISTS regression_results (
+	id INT AUTO_INCREMENT PRIMARY KEY,
+	ticker varchar(15),
+	regression_slope DECIMAL(10,6),
+    r_squared DECIMAL(10,6),
+    p_value_slope DECIMAL (10,6),
+    p_value_f DECIMAL (10,6),
+	FOREIGN KEY (ticker)
+	REFERENCES companies(ticker)
+    );
+ALTER TABLE regression_results ADD COLUMN intercept DECIMAL (10,6);
      -- SHOW TABLES;
      -- describe companies;
      -- describe daily_prices;
      -- describe monthly_summary; 
 
 
-ALTER USER 'root'@'localhost' IDENTIFIED BY 'beans123';
+-- ALTER USER 'root'@'localhost' IDENTIFIED BY 'beans123';
