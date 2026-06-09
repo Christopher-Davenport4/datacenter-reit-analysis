@@ -36,18 +36,14 @@ This is a non-parametric version of an ANOVA. A non-parametric version is necess
 *Dunn's Test*
 The Dunn's test is used in order to look at pairwise comparisons between the three companies to assess their statistical differences. This is important as having more than 2 levels increases the chance of type I errors. Dunn's test corrects for this.
 
-**Growth**
+#Growth
+## Regression Analysis
+In order to characterize each company's growth trajectory, I will be running separate linear regressions with time (trading day) as the independent variable and adjusted close as the dependent variable. The slope will indicate the rate of price growth over time, and R² will indicate how consistently the company grew in that direction. A high R² means the stock followed a steady upward trend, while a low R² means growth was erratic even if the overall return was positive.
 
-***Descriptive***
+#G#roup Comparison
+To assess whether growth distributions differ significantly across companies, a Kruskal-Wallis test will be conducted with company as the independent variable (three levels: EQIX, DLR, IRM) and daily return as the dependent variable. Assuming a significant result, a Dunn's test will be run for pairwise comparisons. The reasoning for selecting these tests is the same as in the stability analysis.
 
-In order to descriptively look at growth, I will be computing the daily return ((today's close - yesterday's close) / yesterday's close) for each company and running separate linear regressions with time (trading day) as the independent variable and daily return as the dependent variable. The slope will indicate the rate of growth over time, and R² will indicate how consistently the company grew in that direction.
-
-Rationale: Fitting a regression to each company allows us to characterize each company's growth trajectory individually. The slope tells us how fast the stock grew, and R² tells us how consistent that growth was. A high R² means the stock followed a steady upward trend, while a low R² means growth was erratic even if the overall return was positive. Daily return is used as the outcome variable rather than raw close price because it is scale-free, making it comparable across companies trading at very different price levels.
-
-***Inferential***
-The same test used in the stability analysis will be used here. The independent variable remains company (three levels: EQIX, DLR, IRM), and the dependent variable will be daily return.
-
-*Statistical Assumptions*
+#Statistical Assumptions#
 
 For this project, I am going to be relying on the Kruskal-Wallis test and linear regression. I will be assessing for the following assumptions across the variable types used (CV of stock price range and daily return).
 
