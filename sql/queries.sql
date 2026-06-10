@@ -1,7 +1,4 @@
--- DELETE FROM companies WHERE ticker IS NULL;
--- SELECT * FROM companies;
 
--- SELECT * FROM daily_prices;
 
 SELECT ticker, EXTRACT(MONTH FROM `date`) AS 'month', EXTRACT(YEAR FROM `date`) AS 'year', AVG(high - low) AS 'monthly range'
 FROM daily_prices
@@ -35,31 +32,5 @@ SELECT ticker, `year`, `month`, mean_close, mean_daily_range, sd_daily_range,
 FROM monthly_stats;
 
 SELECT * FROM monthly_summary LIMIT 10;
-
--- Window function with PARTITION BY
-SELECT ticker, `date`, high,
-    AVG(high) OVER(PARTITION BY ticker) AS avg_high_per_ticker
-FROM daily_prices;
-
--- GROUP BY aggregation
-SELECT ticker,
-    AVG(high) AS avg_high_per_ticker
-FROM daily_prices
-GROUP BY ticker;
-
--- verifying the correct values are being produced in  with the first and last close syntax
--- SELECT ticker, `date`, adjusted_close
--- FROM daily_prices
--- WHERE ticker = 'DLR'
--- AND EXTRACT(MONTH FROM `date`) = 6
--- AND EXTRACT(YEAR FROM `date`) = 2025
--- ORDER BY `date`;
-
-
--- SELECT * FROM daily_prices;
--- SHOW TABLES;
--- DESCRIBE daily_prices;
--- DESCRIBE companies;
--- DESCRIBE monthly_summary;
 
 SELECT * FROM regression_results;
