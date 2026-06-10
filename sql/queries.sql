@@ -32,5 +32,6 @@ SELECT ticker, `year`, `month`, mean_close, mean_daily_range, sd_daily_range,
 FROM monthly_stats;
 
 SELECT * FROM monthly_summary LIMIT 10;
-
+SELECT * FROM daily_prices LIMIT 15;
 SELECT * FROM regression_results;
+SELECT * FROM companies;
