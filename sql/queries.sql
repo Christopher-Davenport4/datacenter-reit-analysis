@@ -4,6 +4,8 @@ SELECT ticker, EXTRACT(MONTH FROM `date`) AS 'month', EXTRACT(YEAR FROM `date`) 
 FROM daily_prices
 GROUP BY ticker, `month`, `year`;
 
+TRUNCATE TABLE monthly_summary;
+
 INSERT INTO monthly_summary ( ticker, `year`, `month`, mean_close, mean_daily_range, sd_daily_range, cv_daily_range, monthly_return)
 WITH base AS (
 	SELECT ticker, 
@@ -31,7 +33,17 @@ SELECT ticker, `year`, `month`, mean_close, mean_daily_range, sd_daily_range,
     (`last_close` - `first_close`) / `first_close` as 'monthly_return'
 FROM monthly_stats;
 
+UPDATE monthly_summary 
+SET `date` = STR_TO_DATE(CONCAT(`year`, '-', `month`, '-01'), '%Y-%m-%d');
+
+
 SELECT * FROM monthly_summary LIMIT 10;
 SELECT * FROM daily_prices LIMIT 15;
 SELECT * FROM regression_results;
 SELECT * FROM companies;
+SHOW TABLES;
+
+SELECT ticker, year, month, COUNT(*) 
+FROM monthly_summary 
+GROUP BY ticker, year, month
+HAVING COUNT(*) > 1;
