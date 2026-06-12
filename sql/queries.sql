@@ -41,6 +41,7 @@ SELECT * FROM monthly_summary LIMIT 10;
 SELECT * FROM daily_prices LIMIT 15;
 SELECT * FROM regression_results;
 SELECT * FROM companies;
+SELECT * FROM live_prices;
 SHOW TABLES;
 
 SELECT ticker, year, month, COUNT(*) 

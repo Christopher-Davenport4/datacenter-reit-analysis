@@ -3,10 +3,10 @@ SHOW DATABASES;
 
 
 USE datacenter_reits;
-DROP TABLE regression_results; 
-DROP TABLE monthly_summary; 
-DROP TABLE daily_prices; 
-DROP TABLE companies; 
+-- DROP TABLE regression_results; 
+-- DROP TABLE monthly_summary; 
+-- DROP TABLE daily_prices; 
+-- DROP TABLE companies; 
 
 
 
@@ -47,8 +47,9 @@ CREATE TABLE IF NOT EXISTS monthly_summary (
     FOREIGN KEY (ticker)
 	REFERENCES companies(ticker)
     );
--- ALTER TABLE monthly_summary 
--- DROP COLUMN regression_slope,
+ALTER TABLE monthly_summary 
+    ADD `date` date;
+
 -- DROP COLUMN r_squared;
 
 CREATE TABLE IF NOT EXISTS regression_results (
@@ -70,6 +71,17 @@ CREATE TABLE IF NOT EXISTS regression_results (
 -- DROP COLUMN p_value_slope,
 -- DROP COLUMN p_value_f;
 
+
+CREATE TABLE IF NOT EXISTS live_prices (
+	ticker varchar(15) PRIMARY KEY,
+	current_price DECIMAL(10,3),
+    current_high DECIMAL(10,3),
+    current_low DECIMAL(10,3),
+	last_updated TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (ticker)
+    REFERENCES companies(ticker)
+);
+INSERT INTO live_prices ( ticker, `year`, `month`, mean_close, mean_daily_range, sd_daily_range, cv_daily_range, monthly_return)
      -- SHOW TABLES;
      -- describe companies;
      -- describe daily_prices;
