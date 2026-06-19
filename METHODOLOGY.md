@@ -17,9 +17,9 @@ I wanted to do a project that utilized live data, and came to the conclusion tha
 
 ### Descriptive
 
-In order to descriptively look at the stability of growth for each company, I am going to look at the fluctuation of daily stock prices using the range of the price (High - Low) aggregated to the month level. I am then going to compute the coefficient of variation for each month by computing the mean and standard deviation for the range, and dividing the standard deviation by the mean.
+To descriptively look at the stability of growth for each company, I looked at the fluctuation of daily stock prices using the range of the price (High - Low) aggregated to the month level. I then computed the coefficient of variation for each month by computing the mean and standard deviation for the range, and dividing the standard deviation by the mean.
 
-**Rationale:** Initially I wanted to look at daily volatility by working with real time data. However, I do not have the means to collect this type of data. As a result, I opted for the method described above. I did this for a couple of reasons:
+**Rationale:** Initially I wanted to look at daily volatility by working with real time data. However, I did not have the means to collect this type of data at the time of operationalizing, so I opted for the method described above. I did this for a couple of reasons:
 
 The coefficient of variation (CV) is a metric that allows you to compare variability across different metrics. Comparing standard deviations by themselves is difficult and often invalid as metrics can have the same number but different meanings. For instance, a company worth on average $100 with a SD of $15 is much different than a company worth on average $1000 with an SD of $15. The former has 68% of the data falling within $75 and $115, while the latter is $985 to $1015. However, if we computed the CV, the former would be 15% while the latter is 1.5%.
 
@@ -27,7 +27,7 @@ The coefficient of variation (CV) is a metric that allows you to compare variabi
 
 ### Regression Analysis
 
-In order to characterize each company's growth trajectory, I ran separate linear regressions with time (trading day) as the independent variable and adjusted close as the dependent variable. The slope indicates the rate of price growth over time, and R² indicates how consistently the company grew in that direction. A high R² means the stock followed a steady upward trend, while a low R² means growth was erratic even if the overall return was positive.
+To characterize each company's growth trajectory, I ran separate linear regressions with time (trading day) as the independent variable and adjusted close as the dependent variable. The slope indicates the rate of price growth over time, and R² indicates how consistently the company grew in that direction. A high R² means the stock followed a steady upward trend, while a low R² means growth was erratic even if the overall return was positive.
 
 # Methodological Decisions and Limitations
 
@@ -45,16 +45,16 @@ The inferential test code remains in the analysis notebook, commented out, as a 
 
 ## Independence of Observations
 
-This assumption only partially holds. While observations across companies are independent from one another, daily stock prices within each company are not fully independent as previous prices influence current prices. This is known as autocorrelation and is a well-documented property of time series data.
+This assumption only partially holds. While observations across companies are independent from one another, daily stock prices within each company are not fully independent as previous prices influence current prices. This is known as autocorrelation and is a well-documented property of time series data. Because of this, the regression slope and R² are reported as descriptive measures only, and no p-values are interpreted.
 
 ## Normality of Residuals (Linear Regression)
 
-Linear regression assumes that the residuals are approximately normally distributed, not the raw data itself. Following each regression, residual plots will be inspected to assess whether this assumption holds. Any meaningful violations will be noted as a limitation.
+Linear regression assumes that the residuals are approximately normally distributed, not the raw data itself. Formal residual diagnostics were not performed in this project, since the regression output is used descriptively rather than for inference. Inspecting residual plots for normality and homoscedasticity would be a necessary step in a more rigorous, inference-focused analysis, and is noted here as a limitation.
 
 ## Data Source and Time Window
 
-All data will be sourced from yfinance over a trailing 12-month window. Adjusted close prices will be used rather than raw close prices to account for stock splits and dividends, which would otherwise introduce artificial distortions in the price series.
+All data is sourced from yfinance over a trailing 12-month window. Adjusted close prices are used rather than raw close prices to account for stock splits and dividends, which would otherwise introduce artificial distortions in the price series.
 
 ## Aggregation Period
 
-The default aggregation period for stability metrics is monthly, consistent with the research question. The pipeline is parameterized to support weekly aggregation without changes to the underlying code.
+The aggregation period for stability metrics is monthly, consistent with the research question.
