@@ -25,13 +25,13 @@ Stability is measured using the coefficient of variation (CV) of the daily price
 ## Dashboard previews
 
 ### Retrospective dashboard
-[Retrospective dashboard](visualization/stability_and_growth.gif)
+![Retrospective dashboard](visualization/stability_and_growth.gif)
 
 ### Live monitor dashboard
-[Live monitor dashboard](visualization/live_dashboard_concept.gif)
+![Live monitor dashboard](visualization/live_dashboard_concept.gif)
 
 ### Excel pivot dashboard
-[Excel dashboard](visualization/pivot_dashboard.gif)
+![Excel dashboard](visualization/pivot_dashboard.gif)
 
 
 ---
