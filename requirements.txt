@@ -1,6 +1,0 @@
-yfinance
-mysql-connector-python
-sqlalchemy
-python-dotenv
-statsmodels
-scikit-misc
