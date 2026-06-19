@@ -30,7 +30,7 @@ Note: all code, SQL, and implementation decisions in this project are mine. This
 
 ## 5. Inferential statistics: Kruskal-Wallis and Dunn's test removed
 **Change:** Ran Kruskal-Wallis and Dunn's post hoc tests (for stability via CV and growth via daily returns), then commented them out and excluded them from the final analysis.
-**Why:** Daily stock prices are autocorrelated, today's price is influenced by yesterday's. That violates the independence of observations assumption these tests rely on (and regression p-values/standard errors too). With that assumption violated, the p-values aren't trustworthy and shouldn't be reported. The code is still there, commented out, as a record of what I tried and why I set it aside. The analysis is now purely descriptive: CV, regression slope, R squared, monthly return.
+**Why:** Daily stock prices are autocorrelated, today's price is influenced by yesterday's. That violates the independence of observations assumption these tests rely on (and regression p-values/standard errors too). With that assumption violated, the p-values aren't trustworthy and shouldn't be reported. The code is still there, commented out, as a record of what I tried and why I set it aside. The analysis is now purely descriptive: CV for stability, and regression slope and R squared for growth.
 
 ---
 
@@ -76,11 +76,11 @@ Note: all code, SQL, and implementation decisions in this project are mine. This
 
 ---
 
-## 13. Live data: Power BI streaming model to standalone real time component
+## 13. Live data: Power BI streaming model ruled out
 **Change:** The plan for a real time price page was originally a Power BI Push/Streaming semantic model (via REST API, with Historic Data Analysis on), fed by a Python script.
 **Why:** That requires a Power BI Service account (app.powerbi.com), which is tied to my university Microsoft 365 license and is gone now that I graduated. Checked, and a free Power BI Service account and Microsoft Fabric access are both unavailable without that license. Power Automate alone doesn't fix it either, since there's nowhere to push the data without a semantic model existing in Power BI Service to begin with.
 
-Real time price is non negotiable for me, so the plan now is a standalone real time display, separate from the Power BI report: a local HTML/JS page connected to a WebSocket served by a Python script using yfinance's AsyncWebSocket, showing live current price, high, and low for EQIX, DLR, and IRM. I'll document the original Power BI intent (Push semantic model via REST API) in the README/methodology, along with why it couldn't happen as planned.
+I briefly considered building a standalone HTML/JS page connected to the WebSocket as a workaround. In the end I solved it inside Power BI instead by writing the live data to a MySQL table and connecting to it via DirectQuery using the MariaDB connector (see entry 16). The Python WebSocket script writes the live price to that table, and Power BI reads from it on refresh. This kept everything in one tool rather than splitting the live view into a separate web page.
 
 ---
 
@@ -93,5 +93,17 @@ Real time price is non negotiable for me, so the plan now is a standalone real t
 ## 15. live_prices: needs seed rows before UPDATE will do anything
 **Change:** Found that the 10 minute high/low updater (UPDATE live_prices SET current_high = :high, current_low = :low WHERE ticker = :ticker) ran with no errors but wrote nothing, because live_prices had 0 rows.
 **Why:** UPDATE ... WHERE only changes existing rows that match the condition. With 0 rows in live_prices, WHERE ticker = 'EQIX' matches nothing, so the UPDATE silently affects 0 rows. I need a one time seed step to insert the initial 3 rows (one per ticker, ticker filled in, everything else NULL) before the periodic UPDATE script can actually populate current_high/current_low (and later current_price via the WebSocket). This is a one time setup step, separate from the script that runs continuously.
+
+---
+
+## 16. Power BI DirectQuery: MySQL connector to MariaDB connector
+**Change:** To connect live_prices to Power BI using DirectQuery mode, switched from the native MySQL connector to the MariaDB connector.
+**Why:** Power BI does not natively support DirectQuery for MySQL. Since MySQL and MariaDB share the same codebase and are developed by the same team, the MariaDB DirectQuery adapter works with MySQL databases. The workaround is to download the MariaDB connector from mariadb.com, then in Power BI use Get Data and select MariaDB instead of MySQL, entering the same localhost server and datacenter_reits database. This allows DirectQuery mode, meaning Power BI queries live_prices directly every time a visual loads rather than using a cached import snapshot.
+
+---
+
+## 17. Automated daily ingestion script and Windows Task Scheduler
+**Change:** Exported 01_data_ingestion.ipynb into a standalone script (01_automated_data_ingestion.py) in the scripts folder, made it safe to run unattended, and set it up in Windows Task Scheduler to run daily.
+**Why:** For this to run automatically every day without me babysitting it, it needed two fixes first. The companies insert now checks if the table already has 3 rows before inserting, using scalar() to pull the row count, so it does not crash on a duplicate key error on repeat runs. The daily_prices insert now truncates the table before reloading, since yfinance always pulls a trailing 12 month window, every automated run would otherwise just stack a fresh year on top of the existing data and create duplicates. Truncate and reload keeps the table clean and always reflects the current trailing 12 months. Once both of those were in place, the script was exported from the notebook and scheduled in Windows Task Scheduler to run daily after market close.
 
 ---
