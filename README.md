@@ -35,7 +35,13 @@ Stability is measured using the coefficient of variation (CV) of the daily price
 
 
 ---
+## Written deliverables
 
+Two written reports were produced as part of this project, modeled after the analytical workflow a junior analyst at an investment advisory firm would complete.
+
+- **Full data analysis report** (`Datacenter_REIT_Report.docx`): a structured report following Introduction, Analysis (by metric), Conclusion, and Appendix format, covering company selection rationale, growth, stability, daily return, and the methodological decisions behind the analysis.
+- **Committee summary** (`Datacenter_REIT_Committee_Summary.docx`): a one page plain-English summary written for a non-technical investment committee audience, distilling the findings and recommendation from the full report.
+  
 ## Tech stack
 
 - **Python** (pandas, SQLAlchemy, statsmodels, yfinance) for ETL and analysis
