@@ -35,7 +35,7 @@ To characterize each company's growth trajectory, I ran separate linear regressi
 
 During the planning phase of this project, I considered running inferential tests to assess whether the stability and growth differences between companies were statistically significant. Specifically, I considered a Kruskal-Wallis test followed by Dunn's post-hoc comparisons for both stability (using CV) and growth (using daily returns).
 
-After running these tests, I made the decision not to include them in the final analysis. The core issue is that daily stock prices are autocorrelated: today's price is influenced by yesterday's price, which violates the independence of observations assumption that underlies both the Kruskal-Wallis test and the standard errors of the linear regression. When this assumption is violated, p-values are not trustworthy and cannot be meaningfully interpreted.
+After running these tests, I made the decision not to include them in the final analysis. The core issue is that daily stock prices are autocorrelated: today's price is influenced by yesterday's price, which violates the independence of observations assumption that underlies both the Kruskal-Wallis test and the linear regression. When this assumption is violated, p-values are not trustworthy and cannot be meaningfully interpreted.
 
 This is not unique to this project. It is a known and well-documented challenge in financial time series analysis. The appropriate solution would be to model autocorrelation explicitly, for example using ARIMA-based methods or regression with autocorrelation-corrected standard errors. This is identified as a direction for future work.
 
