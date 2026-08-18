@@ -8,10 +8,6 @@ An end to end data pipeline and business intelligence project analyzing the pric
 
 This is primarily a data engineering and business intelligence project. The focus is on building a working pipeline: extracting data from an API, modeling it in a relational database, transforming it with SQL and Python, and surfacing it through Power BI and Excel. Stock data is the domain, but this is not a rigorous equity analysis. A professional assessing REITs would use measures like beta, Sharpe ratio, drawdown, and benchmark comparison, which are out of scope here and planned for a future project.
 
-## A note on authorship
-
-I wrote all of the code, SQL, and DAX in this project myself. I used Claude as a guide to talk through concepts, debug, and pressure test design decisions, but it did not write the code for me. The reasoning behind the major decisions is documented in `METHODOLOGY.md` and `PROJECT_CHANGES_LOG.md`.
-
 ---
 
 ## Research question
