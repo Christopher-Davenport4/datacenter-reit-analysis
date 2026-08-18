@@ -2,8 +2,6 @@
 -- SECTION 1: PIPELINE QUERIES
 -- These queries are run via Python (02_analysis.ipynb) as part
 -- of the ETL pipeline. They are documented here for reference.
--- NOTE: All syntax was written by me. I had claude reorganize
--- it without changing any code
 -- ============================================================
  
 -- Step 1: Exploratory check of average daily range by month (used during development)
