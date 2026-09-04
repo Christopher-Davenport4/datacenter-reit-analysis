@@ -98,11 +98,8 @@ The ingestion pipeline was exported to a standalone script and scheduled with Wi
    MYSQL_PASSWORD=your_password
    MYSQL_DATABASE=datacenter_reits
    ```
-3. Install the Python dependencies (pandas, SQLAlchemy, statsmodels, yfinance, scipy, scikit-posthocs, python-dotenv, mysql-connector-python).
-4. Run `scripts/01_automated_data_ingestion.py` to populate `daily_prices` and `companies`.
-5. Run `notebooks/02_analysis.ipynb` to populate `regression_results`.
-6. For live prices, run the live price script during market hours.
-7. Open the Power BI file in `visualization/` and refresh.
+3. Install the Python dependencies `pip install -r requirements.txt`
+4. run `python run.py`
 
 ---
 
