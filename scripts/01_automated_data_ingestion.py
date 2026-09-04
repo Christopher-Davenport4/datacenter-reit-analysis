@@ -9,20 +9,19 @@ import os
 # %%
 load_dotenv("../.env")
 
-mysql_host = os.environ.get("MYSQL_HOST")
-mysql_user = os.environ.get("MYSQL_USER")
-mysql_password = os.environ.get("MYSQL_PASSWORD")
-mysql_database = os.environ.get("MYSQL_DATABASE")
+MYSQL_HOST = os.environ.get("MYSQL_HOST")
+MYSQL_USER = os.environ.get("MYSQL_USER")
+MYSQL_PASSWORD = os.environ.get("MYSQL_PASSWORD")
+MYSQL_DATABASE = os.environ.get("MYSQL_DATABASE")
 
 
 #the f goes in front to embed variables
 # Creates the engine, a reusable blueprint for connecting to MySQL.
 # This does not open a connection itself, it just stores the driver,
 # credentials, host, and database name.
-engine = sqlalchemy.create_engine(f"mysql+mysqlconnector://{mysql_user}:{mysql_password}@{mysql_host}/{mysql_database}")
+engine = sqlalchemy.create_engine(f"mysql+mysqlconnector://{MYSQL_USER}:{MYSQL_PASSWORD}@{MYSQL_HOST}/{MYSQL_DATABASE}")
 
-with engine.connect() as conn:
-    print("Connection successful")
+engine.connect()
 
 # os.getcwd()
 

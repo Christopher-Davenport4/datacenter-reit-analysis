@@ -30,7 +30,6 @@ def message_handler(message):
         )
     print("Received message:", message)
 
-
 async def periodic_pull():
     while True:
      for ticker in ["EQIX", "DLR", "IRM"]:
@@ -45,7 +44,7 @@ async def periodic_pull():
      await asyncio.sleep(600) # sleep for 10 minutes (600 seconds) since the high and low only update periodically, we don't need to pull them as often as the current price
 
 
-async def main():
+async def start():
     # =======================
     # With Context Manager
     # =======================
@@ -63,4 +62,3 @@ async def main():
     # await ws.subscribe(["DLR", "EQIX", "IRM"])
     # await ws.listen()
 
-asyncio.run(main())
