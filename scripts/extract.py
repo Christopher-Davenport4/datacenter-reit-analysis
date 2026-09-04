@@ -13,3 +13,6 @@ def extract(symbols, period='1y'):
     except Exception as e:
         print(f"Error in extract function: {e}", flush=True)
         raise ValueError(f"Failed to extract data for symbols: {symbols}. Error: {e}")
+
+def extract_new_data(data):
+    pass
