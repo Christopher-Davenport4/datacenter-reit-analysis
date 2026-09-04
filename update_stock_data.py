@@ -1,7 +1,7 @@
 from dotenv import load_dotenv
 load_dotenv()
 import os
-# from scripts.extract import extract
+from scripts.extract import extract
 from scripts.transform import transform
 from scripts.load import load_to_sql, start_live_data
 
@@ -32,11 +32,11 @@ def main():
     count = len(symbols)
 
     print("Starting the data ingestion process...", flush=True)
-    # extracted_data = extract(symbols = symbols, period = period)
+    extracted_data = extract(symbols = symbols, period = period)
     print("Extraction complete. Transforming data...", flush=True)
-    # transformed_data = transform(extracted_data, columns)
+    transformed_data = transform(extracted_data, columns)
     print("Transformation complete. Loading data to SQL...", flush=True )
-    # load_to_sql(transformed_data, MYSQL_HOST, MYSQL_USER, MYSQL_PASSWORD, MYSQL_DATABASE, count)
+    load_to_sql(transformed_data, MYSQL_HOST, MYSQL_USER, MYSQL_PASSWORD, MYSQL_DATABASE, count)
     print("Data loaded to SQL.")
 
     
