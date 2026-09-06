@@ -1,15 +1,15 @@
+import os
 from dotenv import load_dotenv
 load_dotenv()
-import os
 from scripts.extract import extract
 from scripts.transform import transform
-from scripts.load import load_to_sql, start_live_data
-
+from scripts.load import load_to_sql start_live_data
+import os
 
 MYSQL_HOST = os.environ.get("MYSQL_HOST", 'localhost')
 MYSQL_USER = os.environ.get("MYSQL_USER", 'root')
-MYSQL_PASSWORD = os.environ.get("MYSQL_PASSWORD", 'vivian123')
-MYSQL_DATABASE = os.environ.get("MYSQL_DATABASE", 'datacenter_reits')
+MYSQL_PASSWORD = os.environ.get("MYSQL_PASSWORD")
+MYSQL_DATABASE = os.environ.get("MYSQL_DATABASE")
 
 
 def main():
@@ -17,7 +17,7 @@ def main():
     if MYSQL_HOST is None or MYSQL_USER is None or MYSQL_PASSWORD is None or MYSQL_DATABASE is None:
         raise ValueError("One or more MySQL environment variables are not set. Please check your .env file.")
     print(f"MySQL environment variables loaded successfully. Host: {MYSQL_HOST}, User: {MYSQL_USER}", flush=True)
-    symbols = "EQIX, DLR, IRM"
+    symbols = "EQIX, DLR, IRM, AAPL"
     period = '1y'
     columns = {
             "Close": "adjusted_close",
