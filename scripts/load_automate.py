@@ -1,12 +1,5 @@
-from itertools import count
-import yfinance as yf
-import pandas as pd
 import asyncio
-import sqlalchemy 
 from scripts.live_price_updater import start
-
-
-
 
 def start_live_data():
     try:

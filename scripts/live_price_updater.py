@@ -31,6 +31,7 @@ def message_handler(message):
     print("Received message:", message)
 
 async def periodic_pull():
+    
     while True:
      for ticker in ["EQIX", "DLR", "IRM"]:
             data = yf.download(ticker, period="1d")
