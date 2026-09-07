@@ -56,7 +56,7 @@ def main(run_live):
 
     if run_live:
         print("Starting live price updater...", flush=True)
-        start_live_data()
+        start_live_data(MYSQL_HOST, MYSQL_USER, MYSQL_PASSWORD, MYSQL_DATABASE)
 
 
 if __name__ == "__main__":
