@@ -1,5 +1,3 @@
-from itertools import count
-
 import yfinance as yf
 import pandas as pd
 import asyncio
@@ -7,7 +5,7 @@ import sqlalchemy
 # from scripts.live_price_updater import start
 
 
-def load_to_sql(data, host, user, password, database, count):
+def load_to_sql(data, host, user, password, database):
     try:
         engine = sqlalchemy.create_engine(f"mysql+mysqlconnector://{user}:{password}@{host}/{database}")
 
@@ -33,6 +31,7 @@ def load_to_sql(data, host, user, password, database, count):
             data.to_sql(name='daily_prices', con=conn, if_exists='append', index=False)
 
             conn.commit()
+            return True
     except Exception as e:
         print(f"Error in load function: {e}", flush=True)
         return None

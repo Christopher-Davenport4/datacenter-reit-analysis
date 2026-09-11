@@ -1,5 +1,3 @@
-from unittest import result
-
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -44,8 +42,7 @@ def main(run_live):
         raise ValueError("One or more MySQL environment variables are not set. Please check your .env file.")
     print(f"MySQL environment variables loaded successfully. Host: {MYSQL_HOST}, User: {MYSQL_USER}", flush=True)
 
-    count = len(SYMBOLS.split(','))
-
+   
     print("Starting the data ingestion process...", flush=True)
     extracted_data = extract(symbols=SYMBOLS, period=PERIOD)
 
@@ -53,8 +50,8 @@ def main(run_live):
     transformed_data = transform(extracted_data, COLUMN_MAP)
 
     print("Transformation complete. Loading data to SQL...", flush=True)
-    result = load_to_sql(transformed_data, MYSQL_HOST, MYSQL_USER, MYSQL_PASSWORD, MYSQL_DATABASE, count)
-    if result is None:
+    result = load_to_sql(transformed_data, MYSQL_HOST, MYSQL_USER, MYSQL_PASSWORD, MYSQL_DATABASE)
+    if result is True:
        print("Data loaded to SQL.", flush=True)
     else:
         print(f"Failed to load data to SQL.", flush=True)
