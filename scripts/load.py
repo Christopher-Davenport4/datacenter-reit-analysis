@@ -13,10 +13,10 @@ def load_to_sql(data, host, user, password, database, count):
 
         with engine.connect() as conn:
             company_df = pd.DataFrame({
-                "ticker": ['EQIX', 'IRM', 'DLR', 'AAPL'],
-                "company_name": ["Equinix", "Iron Mountain", 'Digital Reality Trust', 'Apple Inc.'],
-                "sector": ["REIT", "REIT", "REIT", "Technology"],
-                "exchange": ["NYSE", "NYSE", "NYSE", "NASDAQ"]
+                "ticker": ['EQIX', 'IRM', 'DLR'],
+                "company_name": ["Equinix", "Iron Mountain", 'Digital Reality Trust'],
+                "sector": ["REIT", "REIT", "REIT"],
+                "exchange": ["NYSE", "NYSE", "NYSE"]
             })
 
             upsert_stmt = sqlalchemy.text("""

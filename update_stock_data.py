@@ -1,3 +1,5 @@
+from unittest import result
+
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -51,8 +53,11 @@ def main(run_live):
     transformed_data = transform(extracted_data, COLUMN_MAP)
 
     print("Transformation complete. Loading data to SQL...", flush=True)
-    load_to_sql(transformed_data, MYSQL_HOST, MYSQL_USER, MYSQL_PASSWORD, MYSQL_DATABASE, count)
-    print("Data loaded to SQL.", flush=True)
+    result = load_to_sql(transformed_data, MYSQL_HOST, MYSQL_USER, MYSQL_PASSWORD, MYSQL_DATABASE, count)
+    if result is None:
+       print("Data loaded to SQL.", flush=True)
+    else:
+        print(f"Failed to load data to SQL.", flush=True)
 
     if run_live:
         print("Starting live price updater...", flush=True)
