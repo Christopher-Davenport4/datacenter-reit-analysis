@@ -65,7 +65,7 @@ The database (`datacenter_reits`) uses a star schema with `companies` as the cen
 ## Project components
 
 ### 1. ETL pipeline
-A Python pipeline pulls a trailing 12 month window of daily OHLCV data for all three tickers via yfinance, reshapes the multi index output into a row per ticker per day, calculates daily return, and loads the result into MySQL. The companies table is seeded once with a guard that prevents duplicate inserts on repeat runs.
+The pipeline is split into modular stages, each in its own file: `extract.py` pulls a trailing 12 month window of daily OHLCV data for all three tickers via yfinance, `transform.py` reshapes the multi index output into a row per ticker per day and calculates daily return, and `load.py` writes the result into MySQL. `update_stock_data.py` orchestrates the three stages and accepts a `--live` command line flag to optionally start the real time pipeline after the batch load finishes. The companies table is upserted on each run (insert new companies, update existing ones) rather than requiring a separate guard against duplicates.
 
 ### 2. Analysis
 A separate notebook runs a per company linear regression of adjusted close on a centered time variable using statsmodels, then writes the slope, R squared, and intercept to the `regression_results` table. Centering the time variable makes the intercept interpretable as the mean adjusted close over the period. Inferential tests (Kruskal-Wallis, Dunn's) were explored but excluded because daily stock prices are autocorrelated, which violates the independence assumption those tests rely on. See `METHODOLOGY.md` for the full reasoning.
@@ -81,11 +81,10 @@ The `sql` folder contains the schema setup and a set of analytical queries demon
 A pivot table connected to MySQL through the data model, showing average adjusted close and total volume drillable by company, year, quarter, month, and day, with company and date slicers.
 
 ### 6. Real time price pipeline
-A standalone Python script connects to yfinance's AsyncWebSocket to stream live prices and writes the current price to `live_prices` on each message. A second concurrent task, running on a 10 minute timer via asyncio, pulls the day's high and low separately. The two writes are independent so each updates on its own rhythm. The original plan was to surface this through a Power BI streaming semantic model via the Push API, but that requires a Power BI Service account tied to a university license that is no longer available post graduation, so the standalone script with DirectQuery refresh is the workaround.
+A standalone module (`live_price_updater.py`) connects to yfinance's AsyncWebSocket to stream live prices and writes the current price to `live_prices` on each message. A second concurrent task, running on a 10 minute timer via asyncio, pulls the day's high and low separately. The two writes are independent so each updates on its own rhythm. This pipeline shares its MySQL connection with the batch pipeline: credentials are held in one place (`update_stock_data.py`) and passed down through `load_automate.py`, which starts the live updater, rather than being duplicated across files. The original plan was to surface this through a Power BI streaming semantic model via the Push API, but that requires a Power BI Service account tied to a university license that is no longer available post graduation, so the standalone script with DirectQuery refresh is the workaround. Run it alongside the batch pipeline with the `--live` flag, or independently during market hours.
 
 ### 7. Automation
-The ingestion pipeline was exported to a standalone script and scheduled with Windows Task Scheduler to run daily after market close. The script is idempotent: the companies insert is guarded against duplicates, and daily_prices is truncated and reloaded each run, so the table always reflects the current trailing 12 months without accumulating duplicates.
-
+The ETL pipeline is idempotent: `daily_prices` is truncated and reloaded each run so the table always reflects the current trailing 12 months without accumulating duplicates, and the companies table is upserted rather than duplicated. The batch pipeline is scheduled with Windows Task Scheduler to run daily after market close.
 ---
 
 ## How to run
@@ -99,7 +98,8 @@ The ingestion pipeline was exported to a standalone script and scheduled with Wi
    MYSQL_DATABASE=datacenter_reits
    ```
 3. Install the Python dependencies `pip install -r requirements.txt`
-4. run `python run.py`
+4. Run the batch pipeline: `python update_stock_data.py`
+5. To also start the live price pipeline during market hours, add the flag: `python update_stock_data.py --live`
 
 ---
 
