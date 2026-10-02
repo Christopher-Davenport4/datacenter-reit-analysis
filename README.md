@@ -84,7 +84,8 @@ A pivot table connected to MySQL through the data model, showing average adjuste
 A standalone module (`live_price_updater.py`) connects to yfinance's AsyncWebSocket to stream live prices and writes the current price to `live_prices` on each message. A second concurrent task, running on a 10 minute timer via asyncio, pulls the day's high and low separately. The two writes are independent so each updates on its own rhythm. This pipeline shares its MySQL connection with the batch pipeline: credentials are held in one place (`update_stock_data.py`) and passed down through `load_automate.py`, which starts the live updater, rather than being duplicated across files. The original plan was to surface this through a Power BI streaming semantic model via the Push API, but that requires a Power BI Service account tied to a university license that is no longer available post graduation, so the standalone script with DirectQuery refresh is the workaround. Run it alongside the batch pipeline with the `--live` flag, or independently during market hours.
 
 ### 7. Automation
-The ETL pipeline is idempotent: `daily_prices` is truncated and reloaded each run so the table always reflects the current trailing 12 months without accumulating duplicates, and the companies table is upserted rather than duplicated. The batch pipeline is scheduled with Windows Task Scheduler to run daily after market close.
+The ETL pipeline is idempotent: daily_prices is truncated and reloaded each run so the table always reflects the current trailing 12 months without accumulating duplicates, and the companies table is upserted rather than duplicated. The batch pipeline is scheduled with Windows Task Scheduler to run daily after market close.
+
 ---
 
 ## How to run
