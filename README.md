@@ -105,8 +105,6 @@ The ETL pipeline is idempotent: daily_prices is truncated and reloaded each run 
 ---
 
 ## Known limitations and caveats
-
-- **Data window.** The dataset reflects a rolling trailing 12 months. Because of when the data was first pulled, the history starts in mid June 2025, so the earliest month has fewer trading days than a full month.
 - **Autocorrelation.** Daily stock prices are not independent observations, so the regression slope and R squared are treated as descriptive only, with no p-values reported or interpreted. This is documented in `METHODOLOGY.md`.
 
 ---
